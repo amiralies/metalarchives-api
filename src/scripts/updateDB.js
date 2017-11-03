@@ -1,34 +1,29 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
-const bluebird = require('bluebird');
+const Promise = require('bluebird');
 const cheerio = require('cheerio');
 require('../models/band');
 
 const MA_URL =
   'https://www.metal-archives.com/search/ajax-advanced/searching/bands/?iDisplayStart=';
 
-mongoose.Promise = bluebird;
-mongoose.connect(
-  'mongodb://localhost:27017/metalarchives',
-  {
-    useMongoClient: true
-  }
-);
+const startTime = Date.now();
+
+console.log('Updating...');
+
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://localhost:27017/metalarchives', {
+  useMongoClient: true
+});
 const Band = mongoose.model('Band');
 
-const getBands = (i, cb) => {
-  axios
-    .get(MA_URL + (i * 200).toString())
-    .then(({ data }) => {
-      cb(null, data.aaData);
-    })
-    .catch(err => {
-      console.log('Error in : ' + (i * 200 + 200));
-      cb(err);
-    });
-};
+const requestBands = index => axios.get(MA_URL + (index * 200).toString());
+
+const getBands = requestArr =>
+  Promise.map(requestArr, item => requestBands(item));
 
 const saveBands = bands => {
+  const bandsToSave = [];
   bands.forEach(band => {
     const $ = cheerio.load(band[0]);
     const aHref = $('a').attr('href');
@@ -38,26 +33,40 @@ const saveBands = bands => {
       band_genre: band[1],
       band_country: band[2]
     };
-    new Band(bandObj).save(err => {
-      if (err) console.log(err);
-    });
+    bandsToSave.push(bandObj);
   });
+  return Band.insertMany(bandsToSave);
 };
 
-axios
-  .get(MA_URL)
-  .then(({ data }) => {
-    const bandCount = data.iTotalRecords;
-    const totalRequests = Math.ceil(bandCount / 200);
-    const startTime = Date.now();
-    for (let i = 0; i <= totalRequests; i += 1) {
-      getBands(i, (err, bands) => {
-        if (err) console.log(err);
-        else saveBands(bands);
+const main = () => {
+  axios
+    .get(MA_URL, { timeout: 10000 })
+    .then(({ data }) => {
+      const bandCount = data.iTotalRecords;
+      const totalRequests = Math.ceil(bandCount / 200);
+      const requestArr = [];
+      for (let i = 0; i < totalRequests; i += 1) {
+        requestArr[i] = i;
+      }
+      return getBands(requestArr);
+    })
+    .then(res => {
+      const data = res.map(item => item.data.aaData);
+      const bands = [];
+      data.forEach(item => {
+        bands.push(...item);
       });
-    }
-  })
-  .catch(err => {
-    console.log('Initialize Error');
-    console.log(err);
-  });
+      return saveBands(bands);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .then(() => {
+      console.log(
+        `Done.\nTotal Time spent : ${(Date.now() - startTime).toString()} ms`
+      );
+      mongoose.connection.close();
+    });
+};
+
+main.call();
