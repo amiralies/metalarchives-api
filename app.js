@@ -2,10 +2,19 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const bluebird = require('bluebird');
 
-const index = require('./src/routes/index');
+require('./src/models');
+const index = require('./src/routes');
 
 const app = express();
+
+
+mongoose.Promise = bluebird;
+mongoose.connect('mongodb://localhost:27017/metalarchives', {
+  useMongoClient: true,
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
