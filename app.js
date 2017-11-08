@@ -4,15 +4,17 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
+const config = require('./src/helpers/config');
 
 require('./src/models');
 const index = require('./src/routes');
+
 
 const app = express();
 
 
 mongoose.Promise = bluebird;
-mongoose.connect('mongodb://localhost:27017/metalarchives', {
+mongoose.connect(config.DB_CONNECTION_STRING, {
   useMongoClient: true,
 });
 

@@ -2,6 +2,7 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const cheerio = require('cheerio');
+const config = require('../helpers/config');
 require('../models/band');
 
 const MA_URL =
@@ -12,7 +13,7 @@ const startTime = Date.now();
 console.log('Updating...');
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost:27017/metalarchives', {
+mongoose.connect(config.DB_CONNECTION_STRING, {
   useMongoClient: true,
 });
 const Band = mongoose.model('Band');
