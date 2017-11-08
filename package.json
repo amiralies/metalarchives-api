@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "updateDB": "node ./src/scripts/updateDB.js"
+    "updateDB": "node ./src/scripts/updateDB.js",
+    "genDoc": "apidoc -i src/routes -o apidoc/"
   },
   "dependencies": {
     "axios": "^0.17.0",

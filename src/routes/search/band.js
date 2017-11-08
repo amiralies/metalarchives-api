@@ -5,6 +5,78 @@ const Utils = require('../../helpers/utils');
 const Band = mongoose.model('Band');
 const router = express.Router();
 
+/**
+ * @api {get} /search/band Search for bands
+ * @apiName SearchBands
+ * @apiGroup Search
+ *
+ * @apiParam {String}     [name]      Band name query.
+ * @apiParam {String}     [genre]     Band genre query.
+ * @apiParam {String}     [country]   Band country query.
+ * @apiParam {Integer}    [start]     Start index of the data.
+ * @apiParam {Integer}    [length]    Length of the data.
+ * @apiParamExample Request-Example :
+ *  /search/band/?name=Death&start=0&length=5
+ *
+ * @apiError {Boolean}    success     <Code>false</Code>
+ * @apiError {String}     message     Error message.
+ * @apiErrorExample {json} Error-Example:
+ * {
+   "success":false,
+   "message":"Bad start index parameter."
+  }
+ *
+ * @apiSuccess {Boolean}    success                   <Code>true</Code>
+ * @apiSuccess {Object}     data                      Data for the query.
+ * @apiSuccess {Integer}    data.totalResult          Total result count for the query.
+ * @apiSuccess {Integer}    data.currentResult        Current retrived result count for the query.
+ * @apiSuccess {Array[]}    data.bands                Total bands retrived by query.
+ * @apiSuccess {Integer}    data.bands.band_id        Band id for certain band.
+ * @apiSuccess {String}     data.bands.band_name      Band name.
+ * @apiSuccess {String}     data.bands.band_genre     Band Genre(s).
+ * @apiSuccess {String}     data.bands.band_country   Band Country.
+ * @apiSuccessExample {json} Success-Example:
+ * {
+   "success":true,
+   "data":{
+      "totalResult":627,
+      "currentResult":5,
+      "bands":[
+         {
+            "band_id":141,
+            "band_name":"Death",
+            "band_genre":"Death Metal (early), Death/Progressive Metal (later)",
+            "band_country":"United States"
+         },
+         {
+            "band_id":3540425861,
+            "band_name":"Death &amp; Destruction",
+            "band_genre":"Thrash Metal/Crossover/Hardcore",
+            "band_country":"Australia"
+         },
+         {
+            "band_id":3540377475,
+            "band_name":"Death &amp; Legacy",
+            "band_genre":"Heavy/Melodic Death Metal",
+            "band_country":"Spain"
+         },
+         {
+            "band_id":3540343973,
+            "band_name":"Death &amp; Taxe$",
+            "band_genre":"Progressive Metal",
+            "band_country":"United States"
+         },
+         {
+            "band_id":3540407204,
+            "band_name":"Death &amp; the Miser",
+            "band_genre":"Stoner Metal/Rock",
+            "band_country":"United Kingdom"
+         }
+      ]
+   }
+  }
+
+ */
 router.get('/', (req, res, next) => {
   const {
     genre, country, name,

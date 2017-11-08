@@ -1,0 +1,8 @@
+{
+  "name": "metalarchives-api",
+  "version": "0.0.1",
+  "description": "RESTful API for metalarchives",
+  "template" :{
+    "withCompare": false
+  }
+}
