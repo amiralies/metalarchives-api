@@ -82,8 +82,9 @@ router.get('/', (req, res, next) => {
     genre, country, name,
   } = req.query;
   let { start, length } = req.query;
-
   const queryConditions = {};
+  let totalResult = 0;
+
   if (name) {
     const nameRegex = Utils.makeSearchRegex(name);
     if (nameRegex) {
@@ -92,6 +93,7 @@ router.get('/', (req, res, next) => {
       return Utils.sendError(400, 'Bad input (name) parameter.', next);
     }
   }
+
   if (genre) {
     const genreRegex = Utils.makeSearchRegex(genre);
     if (genreRegex) {
@@ -100,6 +102,7 @@ router.get('/', (req, res, next) => {
       return Utils.sendError(400, 'Bad input (genre) parameter.', next);
     }
   }
+
   if (country) {
     const countryRegex = Utils.makeSearchRegex(country);
     if (countryRegex) {
@@ -112,13 +115,12 @@ router.get('/', (req, res, next) => {
   if (start && Number.isInteger(parseInt(start, 10))) {
     start = parseInt(start, 10);
   } else start = 0;
+
   if (length && Number.isInteger(parseInt(length, 10))) {
     length = (parseInt(length, 10) > 20 || parseInt(length, 10) <= 0) ? 20 : parseInt(length, 10);
   } else length = 20;
 
-
-  let totalResult = 0;
-  Band.count(queryConditions)
+  return Band.count(queryConditions)
     .then((result) => {
       totalResult = result;
       if (totalResult === 0) {
@@ -140,12 +142,9 @@ router.get('/', (req, res, next) => {
         };
         return band;
       });
-
       res.status(200).json({ success: true, data: { totalResult, currentResult, bands } });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 module.exports = router;
