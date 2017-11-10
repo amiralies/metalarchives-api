@@ -6,9 +6,9 @@ const Band = mongoose.model('Band');
 const router = express.Router();
 
 /**
- * @api {get} /search/band Search for bands
- * @apiName SearchBands
- * @apiGroup Search
+ * @api {get} /bands Fet list of bands
+ * @apiName GetBands
+ * @apiGroup Bands
  *
  * @apiParam {String}     [name]      Band name query.
  * @apiParam {String}     [genre]     Band genre query.
@@ -16,7 +16,7 @@ const router = express.Router();
  * @apiParam {Integer}    [start]     Start index of the data.
  * @apiParam {Integer}    [length]    Length of the data.
  * @apiParamExample Request-Example :
- *  /search/band/?name=Death&start=0&length=5
+ *  /bands/?name=Death&start=0&length=5
  *
  * @apiError {Boolean}    success     <Code>false</Code>
  * @apiError {String}     message     Error message.
