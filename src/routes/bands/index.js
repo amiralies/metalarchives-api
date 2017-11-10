@@ -89,7 +89,7 @@ router.get('/', (req, res, next) => {
     if (nameRegex) {
       queryConditions.band_name = nameRegex;
     } else {
-      res.status(400).json({ success: false, message: 'Bad input (name) parameter.' });
+      return Utils.sendError(400, 'Bad input (name) parameter.', next);
     }
   }
   if (genre) {
@@ -97,7 +97,7 @@ router.get('/', (req, res, next) => {
     if (genreRegex) {
       queryConditions.band_genre = genreRegex;
     } else {
-      res.status(400).json({ success: false, message: 'Bad input (genre) parameter.' });
+      return Utils.sendError(400, 'Bad input (genre) parameter.', next);
     }
   }
   if (country) {
@@ -105,7 +105,7 @@ router.get('/', (req, res, next) => {
     if (countryRegex) {
       queryConditions.band_country = countryRegex;
     } else {
-      res.status(400).json({ success: false, message: 'Bad input (country) parameter.' });
+      return Utils.sendError(400, 'Bad input (country) parameter.', next);
     }
   }
 
@@ -122,10 +122,10 @@ router.get('/', (req, res, next) => {
     .then((result) => {
       totalResult = result;
       if (totalResult === 0) {
-        res.status(404).json({ success: false, message: 'No match for query.' });
+        throw Utils.sendError(404, 'No match for query.', next);
       }
       if (start < 0 || start >= totalResult) {
-        res.status(400).json({ success: false, message: 'Bad start index parameter.' });
+        throw Utils.sendError(400, 'Bad start index.', next);
       }
       return Band.find(queryConditions).limit(length).skip(start);
     })

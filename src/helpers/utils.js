@@ -9,6 +9,12 @@ class Utils {
     }
     return regex;
   }
+
+  static sendError(errStatus, errMessage, next) {
+    const err = new Error(errMessage);
+    err.status = errStatus;
+    return next(err);
+  }
 }
 
 module.exports = Utils;
