@@ -29,7 +29,7 @@ const saveBands = (bands) => {
     const $ = cheerio.load(band[0]);
     const aHref = $('a').attr('href');
     const bandObj = {
-      band_name: $('a').html(),
+      band_name: $('a').text(),
       band_id: parseInt(aHref.substr(aHref.lastIndexOf('/') + 1), 10),
       band_genre: band[1],
       band_country: band[2],
