@@ -7,7 +7,7 @@ const Band = mongoose.model('Band');
 const router = express.Router();
 
 /**
- * @api {get} /bands Fet list of bands
+ * @api {get} /bands Get Bands
  * @apiName GetBands
  * @apiGroup Bands
  *
@@ -148,6 +148,58 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * @api {get} /bands/:band_id Get Band
+ * @apiName GetBand
+ * @apiGroup Bands
+ *
+ * @apiParam {String}     [band_id]      band id.
+ * @apiParamExample Request-Example :
+ *  /bands/44
+ *
+ * @apiError {Boolean}    success     <Code>false</Code>
+ * @apiError {String}     message     Error message.
+ * @apiErrorExample {json} Error-Example:
+ * {
+   "success":false,
+   "message":"Invalid band id parameter"
+  }
+ *
+ * @apiSuccess {Boolean}    success                   <Code>true</Code>
+ * @apiSuccess {Object}     data                      Data.
+ * @apiSuccess {Object}     data.band                 band's info object.
+ * @apiSuccess {String}     data.band.name            band's name.
+ * @apiSuccess {String}     data.band.genre           band's genre.
+ * @apiSuccess {String}     data.band.name            band's origin country.
+ * @apiSuccess {String}     data.band.location        band's location (State, City ...).
+ * @apiSuccess {String}     data.band.themes          band's lyrical themes.
+ * @apiSuccess {String}     data.band.status          band's current status.
+ * @apiSuccess {String}     data.band.label           band's last label.
+ * @apiSuccess {String}     data.band.formYear        band's formation year.
+ * @apiSuccess {String}     data.band.yearsActive     band's years active.
+ * @apiSuccess {String}     data.band.photoUrl        band's photo url.
+ * @apiSuccess {String}     data.band.logoUrl         band's logo url.
+
+ * @apiSuccessExample {json} Success-Example:
+ * {
+   "success":true,
+   "data":{
+      "band":{
+         "name":"Nevermore",
+         "genre":"Power/Thrash Metal (early), Groove/Progressive Metal (later)",
+         "country":"United States",
+         "location":"Seattle, Washington",
+         "themes":"Politics, Philosophy, Human issues, Misanthropy",
+         "status":"Split-up",
+         "label":"Century Media Records",
+         "formYear":"1992",
+         "yearsActive":"1992-2011",
+         "photoUrl":"https://www.metal-archives.com/images/4/4/44_photo.jpg?0824",
+         "logoUrl":"https://www.metal-archives.com/images/4/4/44_logo.jpg?3214"
+      }
+   }
+}
+ */
 router.get('/:band_id', (req, res, next) => {
   const bandID = parseInt(req.params.band_id, 10);
 

@@ -2,6 +2,10 @@
   "name": "metalarchives-api",
   "version": "0.0.1",
   "description": "RESTful API for metalarchives",
+  "order": [
+    "GetBands",
+    "GetBand"
+  ],
   "template" :{
     "withCompare": false
   }
