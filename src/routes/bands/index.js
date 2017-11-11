@@ -198,7 +198,7 @@ router.get('/', (req, res, next) => {
          "logoUrl":"https://www.metal-archives.com/images/4/4/44_logo.jpg?3214"
       }
    }
-}
+  }
  */
 router.get('/:band_id', (req, res, next) => {
   const bandID = parseInt(req.params.band_id, 10);
@@ -210,5 +210,6 @@ router.get('/:band_id', (req, res, next) => {
       .catch(err => next(err));
   } else return next(Utils.sendError(400, 'Invalid band id parameter'));
 });
+
 
 module.exports = router;
