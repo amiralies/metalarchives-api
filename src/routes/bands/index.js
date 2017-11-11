@@ -148,6 +148,20 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get('/random', (req, res, next) => {
+  Band.count()
+    .then((count) => {
+      const randomIndex = Math.floor(Math.random() * count);
+      return Band.findOne().skip(randomIndex);
+    })
+    .then((result) => {
+      const bandID = result.band_id;
+      return Scraper.getBand(bandID);
+    })
+    .then(band => res.status(200).json({ success: true, data: { band } }))
+    .catch(err => next(err));
+});
+
 /**
  * @api {get} /bands/:band_id Get Band
  * @apiName GetBand
