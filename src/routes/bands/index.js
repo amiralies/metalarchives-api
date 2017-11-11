@@ -90,7 +90,7 @@ router.get('/', (req, res, next) => {
     if (nameRegex) {
       queryConditions.band_name = nameRegex;
     } else {
-      return Utils.sendError(400, 'Bad input (name) parameter.', next);
+      return next(Utils.sendError(400, 'Bad input (name) parameter.'));
     }
   }
 
@@ -99,7 +99,7 @@ router.get('/', (req, res, next) => {
     if (genreRegex) {
       queryConditions.band_genre = genreRegex;
     } else {
-      return Utils.sendError(400, 'Bad input (genre) parameter.', next);
+      return next(Utils.sendError(400, 'Bad input (genre) parameter.'));
     }
   }
 
@@ -108,7 +108,7 @@ router.get('/', (req, res, next) => {
     if (countryRegex) {
       queryConditions.band_country = countryRegex;
     } else {
-      return Utils.sendError(400, 'Bad input (country) parameter.', next);
+      return next(Utils.sendError(400, 'Bad input (country) parameter.'));
     }
   }
 

@@ -10,10 +10,10 @@ class Utils {
     return regex;
   }
 
-  static sendError(errStatus, errMessage, next) {
+  static sendError(errStatus, errMessage) {
     const err = new Error(errMessage);
     err.status = errStatus;
-    return next(err);
+    return err;
   }
 }
 
