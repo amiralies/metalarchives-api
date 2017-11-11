@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Utils = require('../../helpers/utils');
+const Scraper = require('../../helpers/scraper');
 
 const Band = mongoose.model('Band');
 const router = express.Router();
@@ -145,6 +146,17 @@ router.get('/', (req, res, next) => {
       res.status(200).json({ success: true, data: { totalResult, currentResult, bands } });
     })
     .catch(err => next(err));
+});
+
+router.get('/:band_id', (req, res, next) => {
+  const bandID = parseInt(req.params.band_id, 10);
+
+  if (bandID === Number(req.params.band_id)) {
+    Scraper.getBand(bandID)
+      .then(band =>
+        res.status(200).json({ success: true, data: band }))
+      .catch(err => next(err));
+  } else return next(Utils.sendError(400, 'Invalid band id parameter'));
 });
 
 module.exports = router;
