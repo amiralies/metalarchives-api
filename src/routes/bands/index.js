@@ -154,7 +154,7 @@ router.get('/:band_id', (req, res, next) => {
   if (bandID === Number(req.params.band_id)) {
     Scraper.getBand(bandID)
       .then(band =>
-        res.status(200).json({ success: true, data: band }))
+        res.status(200).json({ success: true, data: { band } }))
       .catch(err => next(err));
   } else return next(Utils.sendError(400, 'Invalid band id parameter'));
 });
