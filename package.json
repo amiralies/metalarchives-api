@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "updateDB": "node ./src/scripts/updateDB.js",
+    "catchDB": "node ./src/scripts/catchDB.js",
     "genDoc": "apidoc -i src/routes -o apidoc/"
   },
   "dependencies": {
