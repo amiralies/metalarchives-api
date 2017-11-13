@@ -225,5 +225,15 @@ router.get('/:band_id', (req, res, next) => {
   } else return next(Utils.sendError(400, 'Invalid band id parameter'));
 });
 
+router.get('/:band_id/discography', (req, res, next) => {
+  const bandID = parseInt(req.params.band_id, 10);
+
+  if (bandID === Number(req.params.band_id)) {
+    Scraper.getDiscog(bandID)
+      .then(discography =>
+        res.status(200).json({ success: true, data: { discography } }))
+      .catch(err => next(err));
+  } else return next(Utils.sendError(400, 'Invalid band id parameter'));
+});
 
 module.exports = router;
