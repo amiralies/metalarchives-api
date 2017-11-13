@@ -4,7 +4,9 @@
   "description": "RESTful API for metalarchives",
   "order": [
     "GetBands",
-    "GetBand"
+    "GetBand",
+    "GetRandomBand",
+    "GetBandDiscography"
   ],
   "template" :{
     "withCompare": false

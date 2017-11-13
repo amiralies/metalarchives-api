@@ -148,6 +148,47 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err));
 });
 
+/**
+ * @api {get} /bands/random Get Random Band
+ * @apiName GetRandomBand
+ * @apiGroup Bands
+ *
+ *
+ * @apiSuccess {Boolean}    success                   <Code>true</Code>
+ * @apiSuccess {Object}     data                      Data.
+ * @apiSuccess {Object}     data.band                 band's info object.
+ * @apiSuccess {String}     data.band.name            band's name.
+ * @apiSuccess {String}     data.band.genre           band's genre.
+ * @apiSuccess {String}     data.band.name            band's origin country.
+ * @apiSuccess {String}     data.band.location        band's location (State, City ...).
+ * @apiSuccess {String}     data.band.themes          band's lyrical themes.
+ * @apiSuccess {String}     data.band.status          band's current status.
+ * @apiSuccess {String}     data.band.label           band's last label.
+ * @apiSuccess {String}     data.band.formYear        band's formation year.
+ * @apiSuccess {String}     data.band.yearsActive     band's years active.
+ * @apiSuccess {String}     data.band.photoUrl        band's photo url.
+ * @apiSuccess {String}     data.band.logoUrl         band's logo url.
+
+ * @apiSuccessExample {json} Success-Example:
+ * {
+   "success":true,
+   "data":{
+      "band":{
+         "name":"Nevermore",
+         "genre":"Power/Thrash Metal (early), Groove/Progressive Metal (later)",
+         "country":"United States",
+         "location":"Seattle, Washington",
+         "themes":"Politics, Philosophy, Human issues, Misanthropy",
+         "status":"Split-up",
+         "label":"Century Media Records",
+         "formYear":"1992",
+         "yearsActive":"1992-2011",
+         "photoUrl":"https://www.metal-archives.com/images/4/4/44_photo.jpg?0824",
+         "logoUrl":"https://www.metal-archives.com/images/4/4/44_logo.jpg?3214"
+      }
+   }
+  }
+ */
 router.get('/random', (req, res, next) => {
   Band.count()
     .then((count) => {
@@ -167,7 +208,7 @@ router.get('/random', (req, res, next) => {
  * @apiName GetBand
  * @apiGroup Bands
  *
- * @apiParam {String}     [band_id]      band id.
+ * @apiParam {String}     band_id      band id.
  * @apiParamExample Request-Example :
  *  /bands/44
  *
@@ -225,6 +266,142 @@ router.get('/:band_id', (req, res, next) => {
   } else return next(Utils.sendError(400, 'Invalid band id parameter'));
 });
 
+/**
+ * @api {get} /bands/:band_id/discography Get Band Discography
+ * @apiName GetBandDiscography
+ * @apiGroup Bands
+ *
+ * @apiParam {String}     band_id      band id.
+ * @apiParamExample Request-Example :
+ *  /bands/44/discography
+ *
+ * @apiError {Boolean}    success     <Code>false</Code>
+ * @apiError {String}     message     Error message.
+ * @apiErrorExample {json} Error-Example:
+ * {
+   "success":false,
+   "message":"Invalid band id parameter"
+  }
+ *
+ * @apiSuccess {Boolean}    success                   <Code>true</Code>
+ * @apiSuccess {Object}     data                      Data.
+ * @apiSuccess {Array[]}    data.discography          band's discography.
+ * @apiSuccess {Integer}    data.discography.id       release id.
+ * @apiSuccess {String}     data.discography.name     release name.
+ * @apiSuccess {String}     data.discography.type     release type.
+ * @apiSuccess {String}     data.discography.year     release year.
+
+ * @apiSuccessExample {json} Success-Example:
+ * {
+   "success":true,
+   "data":{
+      "discography":[
+         {
+            "id":9809,
+            "name":"Utopia",
+            "type":"Demo",
+            "year":"1992"
+         },
+         {
+            "id":14435,
+            "name":"1994 Demo",
+            "type":"Demo",
+            "year":"1994"
+         },
+         {
+            "id":153,
+            "name":"Nevermore",
+            "type":"Full-length",
+            "year":"1995"
+         },
+         {
+            "id":152,
+            "name":"In Memory",
+            "type":"EP",
+            "year":"1996"
+         },
+         {
+            "id":151,
+            "name":"The Politics of Ecstasy",
+            "type":"Full-length",
+            "year":"1996"
+         },
+         {
+            "id":150,
+            "name":"Dreaming Neon Black",
+            "type":"Full-length",
+            "year":"1999"
+         },
+         {
+            "id":149,
+            "name":"Dead Heart in a Dead World",
+            "type":"Full-length",
+            "year":"2000"
+         },
+         {
+            "id":21712,
+            "name":"Believe in Nothing",
+            "type":"Single",
+            "year":"2001"
+         },
+         {
+            "id":660088,
+            "name":"Century Media 10th Anniversary Party - Live",
+            "type":"Split",
+            "year":"2002"
+         },
+         {
+            "id":28945,
+            "name":"Enemies of Reality",
+            "type":"Full-length",
+            "year":"2003"
+         },
+         {
+            "id":322296,
+            "name":"Arch Enemy / Nevermore",
+            "type":"Split",
+            "year":"2005"
+         },
+         {
+            "id":450444,
+            "name":"This Godless Endeavor",
+            "type":"Full-length",
+            "year":"2005"
+         },
+         {
+            "id":214674,
+            "name":"The Year of the Voyager",
+            "type":"Live album",
+            "year":"2008"
+         },
+         {
+            "id":190219,
+            "name":"The Year of the Voyager",
+            "type":"Video",
+            "year":"2008"
+         },
+         {
+            "id":228136,
+            "name":"Manifesto of Nevermore",
+            "type":"Compilation",
+            "year":"2009"
+         },
+         {
+            "id":267728,
+            "name":"The Obsidian Conspiracy",
+            "type":"Full-length",
+            "year":"2010"
+         },
+         {
+            "id":521846,
+            "name":"Original Album Collection",
+            "type":"Boxed set",
+            "year":"2015"
+         }
+      ]
+   }
+}
+ */
 router.get('/:band_id/discography', (req, res, next) => {
   const bandID = parseInt(req.params.band_id, 10);
 
