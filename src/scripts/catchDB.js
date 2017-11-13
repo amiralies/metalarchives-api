@@ -10,7 +10,7 @@ const MA_URL =
 
 const startTime = Date.now();
 
-console.log('Updating...');
+console.log('Catching...');
 
 mongoose.Promise = Promise;
 mongoose.connect(config.DB_CONNECTION_STRING, {
