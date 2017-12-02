@@ -174,6 +174,7 @@ router.get('/', (req, res, next) => {
    "success":true,
    "data":{
       "band":{
+         "id":44,
          "name":"Nevermore",
          "genre":"Power/Thrash Metal (early), Groove/Progressive Metal (later)",
          "country":"United States",
@@ -240,6 +241,7 @@ router.get('/random', (req, res, next) => {
    "success":true,
    "data":{
       "band":{
+         "id":44,
          "name":"Nevermore",
          "genre":"Power/Thrash Metal (early), Groove/Progressive Metal (later)",
          "country":"United States",

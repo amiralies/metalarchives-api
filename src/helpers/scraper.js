@@ -9,6 +9,7 @@ class Scraper {
     return new Promise((resolve, reject) => {
       axios.get(GET_BAND_URL + bandID.toString(), { timeout: 5000 }).then(({ data }) => {
         const $ = cheerio.load(data);
+        const id = bandID;
         const name = $('.band_name a').text();
         const genre = $('#band_stats .float_right dt').nextAll().eq(0).text();
         const country = $('#band_stats .float_left dt').nextAll().eq(0).text();
@@ -24,6 +25,7 @@ class Scraper {
         const photoUrl = $('#photo').attr('href');
         const logoUrl = $('#logo').attr('href');
         const band = {
+          id,
           name,
           genre,
           country,
