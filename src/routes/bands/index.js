@@ -402,7 +402,7 @@ router.get('/:band_id', (req, res, next) => {
          }
       ]
    }
-}
+  }
  */
 router.get('/:band_id/discography', (req, res, next) => {
   const bandID = parseInt(req.params.band_id, 10);
