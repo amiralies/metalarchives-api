@@ -36,7 +36,7 @@ const saveBands = (bands) => {
     };
     bandsToSave.push(bandObj);
   });
-  return Band.insertMany(bandsToSave);
+  return Band.insertMany(bandsToSave, { ordered: false });
 };
 
 
@@ -61,7 +61,9 @@ const main = () => {
       return saveBands(bands);
     })
     .catch((err) => {
-      console.log(err);
+      if (err.code !== 11000) {
+        console.log(err);
+      }
     })
     .then(() => {
       console.log(`Done.\nTotal Time spent : 
