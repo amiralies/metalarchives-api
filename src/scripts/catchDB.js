@@ -47,7 +47,7 @@ const requestBands = index => new Promise((resolve, reject) => {
 });
 
 const getBands = requestArr =>
-  Promise.map(requestArr, item => requestBands(item), { concurrency: 3 });
+  Promise.mapSeries(requestArr, item => requestBands(item));
 
 const main = () => {
   axios
