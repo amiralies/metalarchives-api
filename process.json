@@ -1,0 +1,8 @@
+{
+  "name": "ma-api",
+  "script": "./bin/www",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "restart_delay": 100
+}
