@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM node:carbon-alpine
 
 WORKDIR /var/www/metalarchives-api
 COPY package*.json ./
