@@ -10,7 +10,7 @@ const MA_URL =
   'https://www.metal-archives.com/search/ajax-advanced/searching/bands/?iDisplayStart=';
 const startTime = Date.now();
 
-console.log('Catching...');
+console.log('DB CATCH: Catching...');
 
 const saveBands = bands => new Promise((resolve, reject) => {
   const bandsToSave = [];
@@ -63,17 +63,18 @@ const main = () => {
     })
     .then((res) => {
       const newBandsCount = res.reduce((sum, item) => sum + item);
-      console.log(`Added ${newBandsCount} new bands.`);
+      console.log(`DB CATCH: Added ${newBandsCount} new bands.`);
     })
     .catch((err) => {
       if (err.code !== 11000) {
-        console.log(err);
+        console.log(`DB CATCH: ${err}`);
       }
     })
     .then(() => {
-      console.log(`Total Time spent : 
+      console.log(`DB CATCH: Total Time spent : 
       ${(Date.now() - startTime).toString()}ms`);
       mongoose.connection.close();
+      process.exit();
     });
 };
 
@@ -82,6 +83,6 @@ mongoose.connect(config.DB_CONNECTION_STRING, {
   useMongoClient: true,
 }, (err) => {
   if (err) {
-    console.log(`MongoDB Connection Error: ${err}`);
+    console.log(`DB CATCH: MongoDB Connection Error: ${err}`);
   } else main.call();
 });
