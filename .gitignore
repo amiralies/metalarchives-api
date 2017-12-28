@@ -30,4 +30,4 @@ node_modules
 npm-debug.log
 
 #apidoc generated files
-apidoc
+doc
