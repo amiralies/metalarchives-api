@@ -16,27 +16,33 @@ git clone https://github.com/amiralies/metalarchives-api.git
 cd metalarchives-api 
 npm install
 ```
-4. Catch database :
+4. Set env vars (do changes if necessary) :
+```sh
+export DB_HOST=localhost
+export DB_PORT=27017
+```
+5. Catch database :
 ```sh
 npm run catchDB
 ```
 
-5. Start API :
-```
+6. Start API :
+```sh
 npm start
 ```
-6. Done.
+7. Done.
 
 Docs
 -------
 To generate docs follow these steps:
 
-1. Install apidoc :
+1. Install apidoc and run it in root of repo :
 ```sh
 npm install -g apidoc
+cd metalarchives-api
+apidoc -i src/routes/
 ```
-
-2. cd to ``/apidoc`` folder in repo.
+2. cd to ``/doc`` folder in repo.
 
 3. Serve files with your desired http server.
 
