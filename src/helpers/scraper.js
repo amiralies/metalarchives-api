@@ -3,8 +3,42 @@ const axios = require('axios');
 
 const GET_BAND_URL = 'https://www.metal-archives.com/bands/sieversiever/';
 const GET_DISCOG_URL = 'https://www.metal-archives.com/band/discography/id/';
+const SEARCH_SONGS_URL = 'https://www.metal-archives.com/search/ajax-advanced/searching/songs';
 
 class Scraper {
+  static searchSongs(songTitle, bandName, lyrics, start, length) {
+    return new Promise((resolve, reject) => {
+      const searchUrl = `${SEARCH_SONGS_URL}?songTitle=${songTitle}&bandName=${bandName}&lyrics=${lyrics}&iDisplayStart=${start}&releaseType[]=1&releaseType[]=3&releaseType[]=4&releaseType[]=5`;
+      console.log(searchUrl);
+      axios.get(searchUrl, { timeout: 10000 })
+        .then(({ data }) => {
+          const totalResult = data.iTotalRecords;
+          let currentResult = length > totalResult - start ? totalResult - start : length;
+          if (start < 0 || start >= totalResult) {
+            currentResult = -1;
+          }
+          let songs = data.aaData.slice(0, currentResult);
+          songs = songs.map((song) => {
+            const band = cheerio.load(song[0])('a').text();
+            const album = cheerio.load(song[1])('a').text();
+            const type = song[2];
+            const title = song[3];
+            const lyricsLink = cheerio.load(song[4])('a').attr('id');
+            const lyricsId = lyricsLink.slice(11, lyricsLink.length);
+            return {
+              title,
+              band,
+              type,
+              album,
+              lyricsId,
+            };
+          });
+          resolve({ totalResult, currentResult, songs });
+        })
+        .catch(err => reject(err));
+    });
+  }
+
   static getBand(bandID) {
     return new Promise((resolve, reject) => {
       axios.get(GET_BAND_URL + bandID.toString(), { timeout: 5000 }).then(({ data }) => {
