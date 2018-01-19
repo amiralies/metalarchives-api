@@ -273,7 +273,7 @@ router.get('/:band_id', (req, res, next) => {
  * @apiName GetBandDiscography
  * @apiGroup Bands
  *
- * @apiParam {String}     band_id      band id.
+ * @apiParam {Integer}     band_id      band id.
  * @apiParamExample Request-Example :
  *  /bands/44/discography
  *

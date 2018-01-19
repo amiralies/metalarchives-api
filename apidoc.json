@@ -3,10 +3,13 @@
   "version": "0.0.1",
   "description": "RESTful API for metalarchives",
   "order": [
+    "Bands",
     "GetBands",
     "GetBand",
     "GetRandomBand",
-    "GetBandDiscography"
+    "GetBandDiscography",
+    "Songs",
+    "Lyrics"
   ],
   "template" :{
     "withCompare": false
