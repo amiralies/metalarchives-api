@@ -4,6 +4,7 @@ const axios = require('axios');
 const GET_BAND_URL = 'https://www.metal-archives.com/bands/sieversiever/';
 const GET_DISCOG_URL = 'https://www.metal-archives.com/band/discography/id/';
 const SEARCH_SONGS_URL = 'https://www.metal-archives.com/search/ajax-advanced/searching/songs';
+const GET_LYRISC_URL = 'https://www.metal-archives.com/release/ajax-view-lyrics/id/';
 
 class Scraper {
   static searchSongs(songTitle, bandName, lyrics, start, length) {
@@ -34,6 +35,17 @@ class Scraper {
             };
           });
           resolve({ totalResult, currentResult, songs });
+        })
+        .catch(err => reject(err));
+    });
+  }
+
+  static getLyrics(lyricsId) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${GET_LYRISC_URL}${lyricsId.toString()}`)
+        .then(({ data }) => {
+          const lyrics = cheerio.load(data)('*').text();
+          resolve(lyrics);
         })
         .catch(err => reject(err));
     });
