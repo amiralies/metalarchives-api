@@ -33,7 +33,7 @@ router.get('/', (req, res, next) => {
       if (data.currentResult === -1) {
         throw Utils.sendError(400, 'Bad start index.');
       }
-      return res.status(200).send(data);
+      return res.status(200).json({ success: true, data });
     })
     .catch(err => next(err));
 });
