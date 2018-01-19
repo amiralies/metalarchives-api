@@ -1,6 +1,6 @@
 {
   "name": "metalarchives-api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "RESTful API for metalarchives",
   "order": [
     "Bands",
