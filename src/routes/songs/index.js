@@ -9,8 +9,9 @@ router.get('/', (req, res, next) => {
     title,
     band,
     lyrics,
+    start,
+    length,
   } = req.query;
-  let { start, length } = req.query;
 
   title = title === undefined ? '' : title;
   band = band === undefined ? '' : band;
