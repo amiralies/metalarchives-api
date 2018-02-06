@@ -44,7 +44,7 @@ class Scraper {
     return new Promise((resolve, reject) => {
       axios.get(`${GET_LYRISC_URL}${lyricsId.toString()}`)
         .then(({ data }) => {
-          const lyrics = cheerio.load(data)('*').text();
+          const lyrics = cheerio.load(data)('body').text();
           resolve(lyrics);
         })
         .catch(err => reject(err));
