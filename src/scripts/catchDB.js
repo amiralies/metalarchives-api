@@ -79,7 +79,7 @@ const main = () => {
 };
 
 mongoose.Promise = Promise;
-mongoose.connect(config.DB_CONNECTION_STRING, {
+mongoose.connect(config.mongoUrl, {
   useMongoClient: true,
 }, (err) => {
   if (err) {

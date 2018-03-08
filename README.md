@@ -18,8 +18,7 @@ npm install
 ```
 4. Set env vars (do changes if necessary) :
 ```sh
-export DB_HOST=localhost
-export DB_PORT=27017
+export MONGO_URL=mongodb://localhost:27017/metalarchives
 ```
 5. Catch database :
 ```sh

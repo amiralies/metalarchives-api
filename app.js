@@ -14,7 +14,7 @@ const app = express();
 
 
 mongoose.Promise = bluebird;
-mongoose.connect(config.DB_CONNECTION_STRING, {
+mongoose.connect(config.mongoUrl, {
   useMongoClient: true,
 });
 

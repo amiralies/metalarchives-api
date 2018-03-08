@@ -1,5 +1,5 @@
-const { DB_HOST, DB_PORT } = process.env;
+const { MONGO_URL } = process.env;
 
 module.exports = {
-  DB_CONNECTION_STRING: `mongodb://${DB_HOST}:${DB_PORT}/metalarchives`,
+  mongoUrl: 'mongodb://localhost:27017/metalarchives' || MONGO_URL,
 };
